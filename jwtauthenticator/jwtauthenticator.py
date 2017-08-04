@@ -61,7 +61,7 @@ class JSONWebTokenLoginHandler(BaseHandler):
         # If no audience is supplied then assume we're not verifying the audience field.
         if audience == "":
             opts = {"verify_aud": False}
-        if signing_passphrase != None:
+        if signing_passphrase != '':
             return jwt.decode(json_web_token, signing_passphrase, algorithms=['HS256'])
         else:
            with open(signing_certificate, 'r') as rsa_public_key_file:
@@ -116,6 +116,7 @@ class JSONWebTokenAuthenticator(Authenticator):
         help="""HTTP header to inspect for the authenticated JSON Web Token.""")
 
     signing_passphrase = Unicode(
+        default_value='',
         config=True,
         help="""
         The passphrase used to sign the incoming JSON Web Tokens.
@@ -177,6 +178,7 @@ class JSONWebTokenLocalAuthenticator(LocalAuthenticator):
         help="""HTTP header to inspect for the authenticated JSON Web Token.""")
 
     signing_passphrase = Unicode(
+        default_value='',
         config=True,
         help="""
             The passphrase used to sign the incoming JSON Web Tokens.
